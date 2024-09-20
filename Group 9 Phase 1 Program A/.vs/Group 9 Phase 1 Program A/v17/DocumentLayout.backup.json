@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3090E4DA-84E4-4C5B-A104-2651C9118DD3}|Group 9 Phase 1 Program A.csproj|c:\\users\\anthony\\source\\repos\\group 9 phase 1 program a\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3090E4DA-84E4-4C5B-A104-2651C9118DD3}|Group 9 Phase 1 Program A.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAUwDYAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T19:07:55.119Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Q/bqJFYqW/k=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Anthony\\.nuget\\packages\\csvhelper\\33.0.1\\csvhelper.33.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
