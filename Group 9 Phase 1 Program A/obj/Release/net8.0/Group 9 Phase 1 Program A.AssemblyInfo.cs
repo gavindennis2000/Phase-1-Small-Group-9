@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Group 9 Phase 1 Program A")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+004d02e32bef74f793e094fe28974f401533ef70")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca47a819e9c1a14e841e388854502a903a2466bd")]
 [assembly: System.Reflection.AssemblyProductAttribute("Group 9 Phase 1 Program A")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Group 9 Phase 1 Program A")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
