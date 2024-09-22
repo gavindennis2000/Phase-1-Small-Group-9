@@ -49,6 +49,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="docs\designDoc.md" />
+    <None Include="docs\testDoc.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
