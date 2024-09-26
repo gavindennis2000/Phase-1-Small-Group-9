@@ -1,17 +1,12 @@
-﻿/* Group 9 Phase 1 Program A
+﻿/* 
+CS 4050
+Group 9 Phase 1 Program A
 Lead Programmer: Gavin Dennis
-
-CsvHelper documentation from:
-    Josh Close CsvHelper GitHub
-    https://joshclose.github.io/CsvHelper/getting-started/
-
-    IAmTimCorey on YouTube
-    https://www.youtube.com/watch?v=z3BwMlcGdhg&t=820s&ab_channel=IAmTimCorey
+Due Friday 27 September 2024
 */
 
-using CsvHelper;
-using CsvHelper.Configuration;
-using System.Globalization;
+using System;
+using System.IO;
 
 namespace Program;
 
@@ -25,16 +20,12 @@ public class Inputs
         how many people - an integer between 1 and 50
         activity code - hexidecimal digit (0 - F)
         notes - string with 80 or fewer characters
+
+        Program A only needs lastname, firstname, and class ID
     */
     public string LastName;
     public string FirstName;
     public string ClassID;
-    public string Date;
-    public TimeOnly StartTime;
-    public TimeOnly EndTime;
-    public int HowManyPeople;
-    public char ActivityCode;
-    public string Notes;
 }
 
 public class Team9startLogFile
@@ -48,31 +39,44 @@ public class Team9startLogFile
         var directory = @".\";
         directory = Path.Combine(directory, dirName);
 
-        // try and write the file
-        try
+        // check if file already exists
+        if (File.Exists(directory))
         {
-            using (var writer = new StreamWriter(directory))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))  // uses default for delimiters on csv files
+            Console.WriteLine("Error. File already exists. Closing program.");
+            return;
+        }
+
+        // try and write the csv file
+        try
+        {           
+            // Write to a new file named "WriteLines.txt".
+            using (StreamWriter outputFile = new StreamWriter(directory))
             {
-                csv.WriteRecords(input.FirstName);
+                for (var i = 0; i < 2; i++)
+                {
+                    for (var j = 0; j < 6; j++)
+                    {
+                        var str = "";
+                        if (i == 0 && j == 0) { str = input.LastName; }
+                        else if (i == 0 && j == 1) { str = input.FirstName; }
+                        else if (i == 1 && j == 0) { str = input.ClassID; }
+                        outputFile.Write(str);
+                        outputFile.Write(",");
+                    }
+                    outputFile.Write("\n");  // new line after everything from the row is written
+                }
+                outputFile.Close();  // close the file after writing is finished
             }
-            Console.WriteLine("CSV file written.");
+
+            // confirm csv creation
+            Console.WriteLine("\n" + dirName + " has been created! \nClosing the program.");
+            return;
         }
         catch(Exception e)
         {
-            Console.WriteLine("Failed to write to CSV file.");
+            // throw exception if CSV output fails
+            Console.WriteLine("\nFailed to write to CSV file.");
             Console.WriteLine(e.Message);
-        }
-    }
-
-    static void ReadFromCsv(string filename)
-    {
-        // attempt to read Csv file after it is written.
-
-        using (var reader = new StreamReader(filename))
-        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-        {
-            var records = csv.GetRecords<Foo>();
         }
     }
 
@@ -118,6 +122,7 @@ public class Team9startLogFile
 
         // end the program
         Console.ReadKey();
+        return;
 
     }
 }
