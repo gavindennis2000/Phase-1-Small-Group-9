@@ -8,7 +8,7 @@ users to log entries for later viewing.
 ### People working on the project: Sam Irvin
 ### Date of First Design: 9/22/2024
 ### Dates of Revision:
->
+> 9/25/2024 - Updated name of test file to match actual file name
 
 ---
 
@@ -19,10 +19,10 @@ The tests will be written to test the functionality of the methods and to ensure
 > Team9logEntryLaterTests.cs
 ```csharp
 /*
-Given file exists in the directory with the name "TestFile.csv"
-Given file exists in the directory with the name "DuplicateFile.csv"
-Given file exists in the directory with the name "DuplicateFile1.csv"
-Given file exists in the directory with the name "1DuplicateFile.csv"
+Given file exists in the directory with the name "TestFileLog.csv"
+Given file exists in the directory with the name "DuplicateFileLog.csv"
+Given file exists in the directory with the name "DuplicateFile1Log.csv"
+Given file exists in the directory with the name "1DuplicateFileLog.csv"
 
 - Expect function given last name "Test" and first name "File" will return true (File exists)
 - Expect function given last name "Missing" and first name "Test" will return false (File does not exist)
