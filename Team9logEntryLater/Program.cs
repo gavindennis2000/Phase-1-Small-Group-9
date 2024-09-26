@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Team9logEntryLater
@@ -18,7 +19,8 @@ namespace Team9logEntryLater
 			Console.WriteLine("Welcome! \n" +
 				"This program allows you to edit logs that track activities.");
 
-			while (pause) {
+			while (pause)
+			{
 				Console.WriteLine("\nPress any key to continue...");
 
 				ConsoleKeyInfo keyValue = Console.ReadKey(true);
@@ -49,13 +51,15 @@ namespace Team9logEntryLater
 			if (File.Exists(filePath))
 			{
 				// Check if there are multiple files that contain the same name, if so, inform the user and exit the program
-				if (Directory.GetFiles(projectDirectory, "*" + lastName + firstName + "*").Length > 1) {
+				if (Directory.GetFiles(projectDirectory, "*" + lastName + firstName + "*").Length > 1)
+				{
 					Console.WriteLine("There were multiple files found for that user. \n \n " +
 						"Please update the file names so only one file with the name " + fileName + " exists then try again. \n \n");
 
 					Console.WriteLine("Press any key to exit...");
 					Console.ReadKey(true);
-				} else
+				}
+				else
 				{
 					Console.WriteLine("\nFile found. Opening...");
 					try
@@ -63,20 +67,42 @@ namespace Team9logEntryLater
 						using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
 						using (StreamReader streamReader = new StreamReader(fileStream))
 						{
+							// Create a list to store the fields by row
+							List<string[]> fields = new List<string[]>();
 							string line = string.Empty;
+
 							while ((line = streamReader.ReadLine()) != null)
 							{
-								Console.WriteLine(line);
+								// Split the line by commas and add it to the fields list
+								fields.Add(line.Split(','));
 							}
-							Console.WriteLine("\nSuccessfully Opened " + fileName);
-							Console.WriteLine("\nPress any key to continue...");
-							Console.ReadKey(true);
+							if (fields != null)
+							{
+								Console.WriteLine("Author's Name: " + fields[0][1] + " " + fields[0][0]);
+								Console.WriteLine("Class ID: " + fields[1][0]);
+
+								Console.WriteLine("\nIs this the correct Author and Class Id?");
+								Console.WriteLine("\nYes / No");
+								string userResponse = Console.ReadLine();
+
+								if (VerifyUserResponse(userResponse)) {
+									Console.WriteLine("Success");
+									Console.WriteLine("\nPress any key to exit...");
+									Console.ReadKey(true);
+								}
+                                else
+                                {
+									Console.WriteLine("\nPlease Verify file name and try again.");
+									Console.WriteLine("\nPress any key to exit...");
+									Console.ReadKey(true);
+								}
+                            }
 						}
-					} catch (Exception ex)
+					}
+					catch (Exception ex)
 					{
 						Console.WriteLine("An error occurred while reading the file: " + ex.Message);
 					}
-
 				}
 			}
 			else
@@ -85,9 +111,30 @@ namespace Team9logEntryLater
 				Console.WriteLine("\nPress any key to exit...");
 				Console.ReadKey(true);
 			}
-
-			Console.WriteLine("Success");
-			Console.ReadKey(true);
 		}
+
+		static private bool VerifyUserResponse(string userResponse)
+		{
+			switch (userResponse.ToLower())
+			{
+				case "yes":
+					return true;
+				case "y":
+					return true;
+				default:
+					return false;
+			}
+		}
+		//static bool VerifyCorrectFile(string filePath, string fileName)
+		//{
+		//	if (File.Exists(filePath))
+		//	{
+		//		return true;
+		//	}
+		//	else
+		//	{
+		//		return false;
+		//	}
+		//}
 	}
 }
