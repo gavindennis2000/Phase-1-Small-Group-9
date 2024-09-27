@@ -23,7 +23,8 @@
  *    - open command line and navigate to folder where the project reside 
  *    - Put dotnet restore command to restore external file 
  *    - dotnet build to build the project 
- *    - dotnet run to run the program 
+ *    - dotnet run to run the program
+ *  To run get to the exe file, open the  folder project located and navigate to bin\Release\net6.0 then click on  Group 9 Phase 1 Program B.exe/app; It will start the program  
  * Resources used 
  * https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-8.0: how to write line in file
  * https://stackoverflow.com/questions/13762338/read-files-from-a-folder-present-in-project: how to access file from derictory
@@ -39,7 +40,7 @@ using System.Text.RegularExpressions;
 namespace Group_9_Phase_1_Program_B
 {
     //a class that holds the main method where all the methods from the 3 class will be called here accordinglly 
-    public class Team9logEnterImmediate
+    public class Team9logEntryImmediate
     {
         /* Show program descrtiption 
          * allow user to start the timmer
@@ -53,8 +54,8 @@ namespace Group_9_Phase_1_Program_B
             //Desciription what the pogram does 
             Console.WriteLine("Welcome to Time Entry Log Program!");
             Console.WriteLine("This program is time logging tool that allows users to track time spent on different activities for CS 4500 class.");
-            Console.WriteLine("The program enables user to start and stop a virtual clock, and it automatically logs the activity details into a CSV file,including the start and end times,the number of people involved,the activity Code,and optional notes.");
-            Console.WriteLine("Press Enter to Proceed:");
+            Console.WriteLine("The program enables user to start and stop a virtual clock, and it automatically logs the activity details into a CSV file,including the date,the start and end times,the number of people involved,the activity Code,and optional notes.");
+            Console.Write("Press Enter to Proceed:");
             //accept input/ enter 
             Console.ReadKey();
             //Initialize the logger and user info
@@ -70,11 +71,11 @@ namespace Group_9_Phase_1_Program_B
             activity.AddNote();
             //create obj from TimeLogFileUpdaterStart the time log 
             TimeLogFileUpdater timeLogFileUpdater = new TimeLogFileUpdater();
-             //star the timmer and set startTime
+            //star the timmer and set startTime
             timeLogFileUpdater.StartLogging();
             Console.WriteLine("Press ENTER when the activity is finished.");
             // Wait for the user to finish
-            Console.ReadLine(); 
+            Console.ReadLine();
             // Prompt user a confirmation that the activity is finsihed 
             bool isFinshied = false;
             while (!isFinshied)
@@ -85,7 +86,7 @@ namespace Group_9_Phase_1_Program_B
                 if (confirmationInput == "Y")
                 {
                     // Set the confirmation to true and exit the loop
-                    isFinshied = true; 
+                    isFinshied = true;
                     Console.WriteLine("Activity confirmed as finished.");
                 }
                 else if (confirmationInput == "N")
@@ -101,12 +102,13 @@ namespace Group_9_Phase_1_Program_B
             //stop logging and set end time
             timeLogFileUpdater.StopLogging();
 
-        // Handle midnight crossing and log the entry
-        //Append changes 
-        logger.LogTimeEntry(timeLogFileUpdater, activity);
+            // Handle midnight crossing and log the entry
+            //Append changes 
+            logger.LogTimeEntry(timeLogFileUpdater, activity);
 
-        // End of program
-        Console.WriteLine("Your log entry has been added. Thank you!");
+            // End of program
+            Console.WriteLine("Your log entry has been added successfully!");
+            Console.ReadKey();
 
         }
         /* A Class that handle log file Opreation
@@ -206,10 +208,10 @@ namespace Group_9_Phase_1_Program_B
                     var startOfNextDay = new DateTime(TimeLogFileUpdater.EndTime.Year, TimeLogFileUpdater.EndTime.Month, TimeLogFileUpdater.EndTime.Day, 0, 0, 0);
                     /*set StartTime and EndTime
                      Create a new TimeLogFileUpdater for the first entry*/
-                    TimeLogFileUpdater firstTimeEntry = new TimeLogFileUpdater { LogDate= TimeLogFileUpdater.LogDate, StartTime = TimeLogFileUpdater.StartTime, EndTime = endOfDay };
+                    TimeLogFileUpdater firstTimeEntry = new TimeLogFileUpdater { LogDate = TimeLogFileUpdater.LogDate, StartTime = TimeLogFileUpdater.StartTime, EndTime = endOfDay };
                     AppendLog(firstTimeEntry, activity);
                     //create a new TimeLogFileUpdater object for the second time entry / for the next day
-                    TimeLogFileUpdater secondTimeEntry = new TimeLogFileUpdater {LogDate= startOfNextDay.Date.ToString("dd/MM/yyyy"), StartTime = startOfNextDay, EndTime = TimeLogFileUpdater.EndTime };
+                    TimeLogFileUpdater secondTimeEntry = new TimeLogFileUpdater { LogDate = startOfNextDay.Date.ToString("dd/MM/yyyy"), StartTime = startOfNextDay, EndTime = TimeLogFileUpdater.EndTime };
                     AppendLog(secondTimeEntry, activity);
                 }
                 else
@@ -218,11 +220,11 @@ namespace Group_9_Phase_1_Program_B
                     AppendLog(TimeLogFileUpdater, activity);
                 }
             }
-           /*append the new entry information to log file 
-             method accept two arguments , TimeLogFileUpdater object  and UserActivity obj
-             get activiyCodeValue form ActivityCode enum
-             Appended the new entry with gathered information 
-            */
+            /*append the new entry information to log file 
+              method accept two arguments , TimeLogFileUpdater object  and UserActivity obj
+              get activiyCodeValue form ActivityCode enum
+              Appended the new entry with gathered information 
+             */
             private void AppendLog(TimeLogFileUpdater TimeLogFileUpdater, UserActivity activity)
             {
                 //enum shows the string to string to hold activityCode.valuee 
@@ -263,7 +265,7 @@ namespace Group_9_Phase_1_Program_B
             Programming = 7,
             Testingtestplan = 8,
             FinalExam = 9,
-            Instructormeeting ='A', // 65,
+            Instructormeeting = 'A', // 65,
             Minilecture = 'B',// ASCII66,
             ViewingSupplementVideo = 'C', //67,
             Other = 'D' //68
@@ -280,7 +282,7 @@ namespace Group_9_Phase_1_Program_B
             public int ParticipantNumber { get; private set; }
             public ActivityCode ActivityCode { get; private set; }
             public string Note { get; private set; }
-           
+
             /*Method for handling Picking activity code for the entry 
              * accept user input for actiityCode
              * validate the input is in the activityCode List
@@ -293,7 +295,7 @@ namespace Group_9_Phase_1_Program_B
                 while (!validActivity)
                 {
                     //Dislay the option to select from 
-                    Console.WriteLine("Select activity code for the entry: ");
+                    Console.WriteLine("Select activity code for the entry (0-D): ");
                     Console.WriteLine(" 0:Reading Canvas site or textbook");
                     Console.WriteLine(" 1:Studying using a practice quiz");
                     Console.WriteLine(" 2:Taking a scoring quiz");
@@ -361,11 +363,10 @@ namespace Group_9_Phase_1_Program_B
             set note value 
 
              */
-            public void AddNote() {
-                //set note to empty string by defualt 
-               Note = "";
+            public void AddNote()
+            {
                 // check weather the activityCode is D/"Other"
-                if (ActivityCode == ActivityCode.Other) 
+                if (ActivityCode == ActivityCode.Other)
                 {
                     bool validNotes = false;
                     while (!validNotes)
@@ -373,7 +374,7 @@ namespace Group_9_Phase_1_Program_B
                         Console.WriteLine("Enter notes (max 80 characters, no commas): ");
                         //set not to what user entered 
                         Note = Console.ReadLine();
-                        if(Note == "")
+                        if (Note == "")
                         {
                             Console.WriteLine("You pressed Enter Key without entering value.Please enter Note value!");
                         }
@@ -388,18 +389,40 @@ namespace Group_9_Phase_1_Program_B
                         }
                     }
                 }
-                //Console.WriteLine();
+                else
+                {
+                    Console.WriteLine("Enter notes (max 80 characters, no commas): ");
+                    // Set Note to what user entered
+                    Note = Console.ReadLine();
+                    //check if usr enter some note validate it. 
+                    if (!string.IsNullOrWhiteSpace(Note))
+                    {
+                        bool optionalNoteValid = false;
+                        while (!optionalNoteValid)
+                        {
+                            if (Note.Length <= 80 && !Note.Contains(","))
+                            {
+                                optionalNoteValid = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid note. Ensure it's under 80 characters and contains no commas.");
+                                Note = Console.ReadLine(); // Allow user to re-enter
+                            }
+                        }
+                    }
+                }
             }
 
         }
-       // class to handle logging the time automatically
-       // set strat time , log date and end time using datetime
+        // class to handle logging the time automatically
+        // set strat time , log date and end time using datetime
         class TimeLogFileUpdater
         {
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public string ? LogDate { get; set; }
-            
+            public string? LogDate { get; set; }
+
             //start  the timmer and set the date and startTime
             public void StartLogging()
             {

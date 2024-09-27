@@ -8,9 +8,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <None Update="DuressaAlewiyaLog.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
+  </ItemGroup>-->
 </Project>
