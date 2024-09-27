@@ -12,6 +12,11 @@ namespace Team9logEntryLater
 		private int _howManyPeople = 0;
 		private int? _activityCode = null;
 
+		public LogEntry()
+		{
+			Note = new Note();
+		}
+
 		public DateTime? StartDate
 		{
 			get { return _startDate; }
@@ -37,13 +42,18 @@ namespace Team9logEntryLater
 			get { return _howManyPeople; }
 			set
 			{
-				if (value > 50 || value < 1) throw new ArgumentOutOfRangeException(nameof(value), "Must have at least one participant and no more than 50");
+				if (value > 50 || value < 1) { 
+					throw new ArgumentOutOfRangeException("Must have at least one participant and no more than 50"); 
+				} else
+				{
+					_howManyPeople = value;
+				}
 			}
 		}
-		public int ActivityCode
+		public int? ActivityCode
 		{
 			// code inspiration taken from https://stackoverflow.com/questions/8860879/in-c-sharp-is-there-any-datatype-to-store-the-hexadecimal-value
-			get { return (int)_activityCode; }
+			get { return _activityCode; }
 			set
 			{
 				if (value >= 0x0 && value <= 0xD)
@@ -52,7 +62,7 @@ namespace Team9logEntryLater
 				}
 				else
 				{
-					throw new ArgumentOutOfRangeException(nameof(value), "Activity Code must be a hexidecimal value between 0 and D");
+					throw new ArgumentOutOfRangeException("Activity Code must be a hexidecimal value between 0 and D");
 				}
 			}
 		}

@@ -81,176 +81,171 @@ namespace Team9logEntryLater
 								Console.WriteLine("\nYes / No");
 								userResponse = Console.ReadLine();
 
-								if (VerifyUserResponse(userResponse)) {
-									LogEntry logEntry = new LogEntry();
-									Note note = new Note();
-
-									// Gather Start Date, Start Time, End Date, and End Time
+								if (VerifyUserResponse(userResponse))
+								{
 									do
 									{
-										Console.WriteLine("\nPlease enter the start date (MM/DD/YYYY): ");
-										string input = Console.ReadLine();
-										if (DateTime.TryParse(input, out DateTime parsedDate))
-										{
-											logEntry.StartDate = parsedDate;
-										}
-										else
-										{
-											Console.WriteLine("Invalid date. Please try again.");
-											logEntry.StartDate = null;
-										}
-									} while (logEntry.StartDate == null);
-									{
-										Console.WriteLine("\nPlease enter the start time in 24 hr format (HH:MM): ");
-										string input = Console.ReadLine();
-										if (DateTime.TryParse(input, out DateTime parsedTime))
-										{
-											logEntry.StartTime = parsedTime;
-										}
-										else
-										{
-											Console.WriteLine("Invalid time. Please try again.");
-											logEntry.StartTime = null;
-										}
-									} while (logEntry.StartTime == null) ;
-									do
-									{
-										Console.WriteLine("\nPlease enter the end date (MM/DD/YYYY): ");
-										string input = Console.ReadLine();
-										if (DateTime.TryParse(input, out DateTime parsedDate))
-										{
-											logEntry.EndDate = parsedDate;
-										}
-										else
-										{
-											Console.WriteLine("Invalid date. Please try again.");
-											logEntry.EndDate = null;
-										}
-									} while (logEntry.EndDate == null);
-									{
-										Console.WriteLine("\nPlease enter the end time in 24 hr format (HH:MM): ");
-										string input = Console.ReadLine();
-										if (DateTime.TryParse(input, out DateTime parsedTime))
-										{
-											logEntry.EndTime = parsedTime;
+										LogEntry logEntry = new LogEntry();
 
-											// Combine date and time components for accurate duration calculation
-											// code inspiration taken from https://stackoverflow.com/questions/12521366/getting-time-span-between-two-times-in-c
-											// and https://stackoverflow.com/questions/3142547/join-date-and-time-to-datetime-in-c-sharp
-											DateTime startDateTime = logEntry.StartDate.Value.Date + logEntry.StartTime.Value.TimeOfDay;
-											DateTime endDateTime = logEntry.EndDate.Value.Date + logEntry.EndTime.Value.TimeOfDay;
-
-											// Check if the total time logges is greater than 24 hours and reject the end time
-											if ((endDateTime - startDateTime).TotalHours > 24)
+										// Gather Start Date, Start Time, End Date, and End Time
+										do
+										{
+											Console.WriteLine("\nPlease enter the start date (MM/DD/YYYY): ");
+											string input = Console.ReadLine();
+											if (DateTime.TryParse(input, out DateTime parsedDate))
 											{
-												Console.WriteLine("Total time logged is greater than 24 hours. Please enter a valid end time.");
-												logEntry.EndTime = null;
+												logEntry.StartDate = parsedDate;
 											}
-
-											// Check if the total time logged is greater than 4 hours and request user confirmation
-											if ((endDateTime - startDateTime).TotalHours > 4)
+											else
 											{
-												Console.WriteLine("Total time logged is greater than 4 hours. Is this correct?");
-												Console.WriteLine("Yes / No");
-												userResponse = Console.ReadLine();
-
-												if (VerifyUserResponse(userResponse))
+												Console.WriteLine("Invalid date. Please try again.");
+												logEntry.StartDate = null;
+											}
+										} while (logEntry.StartDate == null);
+										do
+										{
+											Console.WriteLine("\nPlease enter the start time in 24 hr format (HH:MM): ");
+											string input = Console.ReadLine();
+											if (DateTime.TryParse(input, out DateTime parsedTime))
+											{
+												logEntry.StartTime = parsedTime;
+											}
+											else
+											{
+												Console.WriteLine("Invalid time. Please try again.");
+												logEntry.StartTime = null;
+											}
+										} while (logEntry.StartTime == null) ;
+										do
+										{
+											Console.WriteLine("\nPlease enter the end date (MM/DD/YYYY): ");
+											string input = Console.ReadLine();
+											if (DateTime.TryParse(input, out DateTime parsedDate))
+											{
+												// check if the end date is before the start date and reject the end date
+												if (parsedDate < logEntry.StartDate)
 												{
-													Console.WriteLine("End Time confirmed");
-													logEntry.EndTime = parsedTime;
+													Console.WriteLine("End date cannot be before the start date. Please enter a valid end date.");
+													logEntry.EndDate = null;
 												}
-                                                else
-                                                {
-                                                    Console.WriteLine("Please enter the end time again.");
+
+												logEntry.EndDate = parsedDate;
+											}
+											else
+											{
+												Console.WriteLine("Invalid date. Please try again.");
+												logEntry.EndDate = null;
+											}
+										} while (logEntry.EndDate == null);
+										do
+										{
+											Console.WriteLine("\nPlease enter the end time in 24 hr format (HH:MM): ");
+											string input = Console.ReadLine();
+											if (DateTime.TryParse(input, out DateTime parsedTime))
+											{
+												logEntry.EndTime = parsedTime;
+
+												// Combine date and time components for accurate duration calculation
+												// code inspiration taken from https://stackoverflow.com/questions/12521366/getting-time-span-between-two-times-in-c
+												// and https://stackoverflow.com/questions/3142547/join-date-and-time-to-datetime-in-c-sharp
+												DateTime startDateTime = logEntry.StartDate.Value.Date + logEntry.StartTime.Value.TimeOfDay;
+												DateTime endDateTime = logEntry.EndDate.Value.Date + logEntry.EndTime.Value.TimeOfDay;
+
+												// Check if the end time is before the start time
+												if (endDateTime < startDateTime)
+												{
+													Console.WriteLine("End Time must be after Start Time.");
 													logEntry.EndTime = null;
 												}
 
-                                                logEntry.EndTime = null;
+												// Check if the total time logges is greater than 24 hours and reject the end time
+												if ((endDateTime - startDateTime).TotalHours > 24)
+												{
+													Console.WriteLine("Total time logged is greater than 24 hours. Please enter a valid end time.");
+													logEntry.EndTime = null;
+												}
+
+												// Check if the total time logged is greater than 4 hours and request user confirmation
+												if ((endDateTime - startDateTime).TotalHours < 24 && (endDateTime - startDateTime).TotalHours > 4)
+												{
+													Console.WriteLine("Total time logged is greater than 4 hours. Is this correct?");
+													Console.WriteLine("Yes / No");
+													userResponse = Console.ReadLine();
+
+													if (VerifyUserResponse(userResponse))
+													{
+														Console.WriteLine("End Time confirmed");
+													}
+													else
+													{
+														Console.WriteLine("Please enter the end time again.");
+														logEntry.EndTime = null;
+													}
+												}
 											}
-										}
-										else
-										{
-											Console.WriteLine("Invalid time. Please try again.");
-											logEntry.EndTime = null;
-										}
+											else
+											{
+												Console.WriteLine("Invalid time. Please try again.");
+												logEntry.EndTime = null;
+											}
 
-									} while (logEntry.EndTime == null) ;
+										} while (logEntry.EndTime == null) ;
 
-									// Gather Activity Code
-									do
-									{
-										Console.WriteLine("\nPlease enter the Activity Code from the following choices: ");
-										Console.WriteLine("\n 0 : Reading Canvas site or textbook");
-										Console.WriteLine("\n 1 : Studying using a practice quize");
-										Console.WriteLine("\n 2 : Taking a scoring test");
-										Console.WriteLine("\n 3 : Participating in a Canvas discussion, DX");
-										Console.WriteLine("\n 4 : Meeting with your team");
-										Console.WriteLine("\n 5 : Working on documentation");
-										Console.WriteLine("\n 6 : Working on designs");
-										Console.WriteLine("\n 7 : Programming");
-										Console.WriteLine("\n 8 : Working on a test plan or doing testing");
-										Console.WriteLine("\n 9 : Studying for the final exam");
-										Console.WriteLine("\n A : Conferring with the instructor (outside team meeting)");
-										Console.WriteLine("\n B : Working on a mini-lecture video or reading");
-										Console.WriteLine("\n C : Viewing a video or website that is not a mini-lecture, but is relevant");
-										Console.WriteLine("\n D : Other");
+										// Gather Activity Code
+										do
+										{
+											Console.WriteLine("\nPlease enter the Activity Code from the following choices: ");
+											Console.WriteLine(" 0 : Reading Canvas site or textbook");
+											Console.WriteLine(" 1 : Studying using a practice quize");
+											Console.WriteLine(" 2 : Taking a scoring test");
+											Console.WriteLine(" 3 : Participating in a Canvas discussion, DX");
+											Console.WriteLine(" 4 : Meeting with your team");
+											Console.WriteLine(" 5 : Working on documentation");
+											Console.WriteLine(" 6 : Working on designs");
+											Console.WriteLine(" 7 : Programming");
+											Console.WriteLine(" 8 : Working on a test plan or doing testing");
+											Console.WriteLine(" 9 : Studying for the final exam");
+											Console.WriteLine(" A : Conferring with the instructor (outside team meeting)");
+											Console.WriteLine(" B : Working on a mini-lecture video or reading");
+											Console.WriteLine(" C : Viewing a video or website that is not a mini-lecture, but is relevant");
+											Console.WriteLine(" D : Other\n");
 
-										string input = Console.ReadLine();
-										try
-										{
-											logEntry.ActivityCode = Int32.Parse(input);
-
-											//If activity code is D, note is mandatory
-											if (logEntry.ActivityCode.Equals(0xD)) { logEntry.Note.IsMandatory = true; }
-										}
-										catch (Exception ex)
-										{
-											Console.WriteLine(ex.Message);
-										}
-									} while (logEntry.ActivityCode == null);
-
-									// Gather How Many People
-									do
-									{
-										Console.WriteLine("\nPlease enter the number of participants: ");
-										string input = Console.ReadLine();
-										try
-										{
-											logEntry.HowManyPeople = Int32.Parse(input);
-										}
-										catch (Exception ex)
-										{
-											Console.WriteLine(ex.Message);
-										}
-									} while (logEntry.HowManyPeople == 0);
-
-									// Gather Note
-									do
-									{
-										if (logEntry.Note.IsMandatory)
-										{
+											string input = Console.ReadLine();
 											try
 											{
-												Console.WriteLine("\nPlease enter a note: ");
-												string userEntry = Console.ReadLine();
-												logEntry.Note.Entry = userEntry;
+												logEntry.ActivityCode = Convert.ToInt32(input, 16);
+
+												//If activity code is D, note is mandatory
+												if (logEntry.ActivityCode.Equals(0xD)) { logEntry.Note.IsMandatory = true; }
+											}
+											catch (Exception ex)
+											{
+												Console.WriteLine("Activity Code must be a hexidecimal value between 0 and D");
+											}
+										} while (logEntry.ActivityCode == null);
+
+										// Gather How Many People
+										do
+										{
+											Console.WriteLine("\nPlease enter the number of participants: ");
+											string input = Console.ReadLine();
+											try
+											{
+												logEntry.HowManyPeople = Int32.Parse(input);
 											}
 											catch (Exception ex)
 											{
 												Console.WriteLine(ex.Message);
 											}
-										}
-										else
-										{
-											Console.WriteLine("\nWould you like to add a note?: ");
-											Console.WriteLine("\nYes / No");
-											userResponse = Console.ReadLine();
+										} while (logEntry.HowManyPeople == 0);
 
-											if (VerifyUserResponse(userResponse))
+										// Gather Note
+										do
+										{
+											if (logEntry.Note.IsMandatory)
 											{
 												try
 												{
-													logEntry.Note.IsMandatory = true;
 													Console.WriteLine("\nPlease enter a note: ");
 													string userEntry = Console.ReadLine();
 													logEntry.Note.Entry = userEntry;
@@ -262,59 +257,103 @@ namespace Team9logEntryLater
 											}
 											else
 											{
-												break;
+												Console.WriteLine("\nWould you like to add a note?: ");
+												Console.WriteLine("\nYes / No");
+												userResponse = Console.ReadLine();
+
+												if (VerifyUserResponse(userResponse))
+												{
+													try
+													{
+														logEntry.Note.IsMandatory = true;
+														Console.WriteLine("\nPlease enter a note: ");
+														string userEntry = Console.ReadLine();
+														logEntry.Note.Entry = userEntry;
+													}
+													catch (Exception ex)
+													{
+														Console.WriteLine(ex.Message);
+													}
+												}
+												else
+												{
+													break;
+												}
 											}
+										} while (logEntry.Note.Entry == null);
+
+										// if the end date is on a different date than the start date, duplicate the log entries and adjust the times
+										if (!logEntry.StartDate.Equals(logEntry.EndDate))
+										{
+											// create a second log entry
+											LogEntry logEntry2 = new LogEntry();
+
+											// set the start time of the new log entry to the second day with a start time of 00:00
+											logEntry2.StartDate = logEntry.EndDate;
+											logEntry2.StartTime = logEntry.EndDate.Value.Date + new TimeSpan(0, 0, 0);
+
+											// set the end time of the new log entry to the second day with an end time of the original end time
+											logEntry2.EndDate = logEntry.EndDate;
+											logEntry2.EndTime = logEntry.EndTime;
+
+											// set the end time of the original log entry to the first day with an end time of 23:59
+											logEntry.EndDate = logEntry.StartDate;
+											logEntry.EndTime = logEntry.StartTime.Value.Date + new TimeSpan(23, 59, 59);
+
+											// copy the rest of the log entry data to the new log entry
+											logEntry2.HowManyPeople = logEntry.HowManyPeople;
+											logEntry2.ActivityCode = logEntry.ActivityCode;
+											logEntry2.Note = logEntry.Note;
+
+											// add the new log entries to the log entries list
+											logEntries.Add(logEntry);
+											logEntries.Add(logEntry2);
 										}
-									} while (logEntry.Note.Entry == null);
+										else
+										{
+											logEntries.Add(logEntry);
+										}
 
-									// if the end date is on a different date than the start date, duplicate the log entries and adjust the times
-									if (!logEntry.StartDate.Equals(logEntry.EndDate))
-									{
-										// create a second log entry
-										LogEntry logEntry2 = new LogEntry();
+										Console.WriteLine("\nWould you like to add another log entry?");
+										Console.WriteLine("\nYes / No");
+										userResponse = Console.ReadLine();
 
-										// set the start time of the new log entry to the second day with a start time of 00:00
-										logEntry2.StartDate = logEntry.EndDate;
-										logEntry2.StartTime = logEntry.EndDate.Value.Date + new TimeSpan(0,0,0);
-
-										// set the end time of the new log entry to the second day with an end time of the original end time
-										logEntry2.EndDate = logEntry.EndDate;
-										logEntry2.EndTime = logEntry.EndTime;
-
-										// set the end time of the original log entry to the first day with an end time of 23:59
-										logEntry.EndDate = logEntry.StartDate;
-										logEntry.EndTime = logEntry.StartTime.Value.Date + new TimeSpan(23, 59, 59);
-
-										// copy the rest of the log entry data to the new log entry
-										logEntry2.HowManyPeople = logEntry.HowManyPeople;
-										logEntry2.ActivityCode = logEntry.ActivityCode;
-										logEntry2.Note = logEntry.Note;
-
-										// add the log entries to the list
-										logEntries.Add(logEntry);
-										logEntries.Add(logEntry2);
-									}
-									else
-									{
-										logEntries.Add(logEntry);
-									}
-
-									Console.WriteLine("Success");
-									Console.WriteLine("\nPress any key to exit...");
-									Console.ReadKey(true);
+										if (!VerifyUserResponse(userResponse)) { break; }
+									} while (true);
 								}
-                                else
-                                {
+								else
+								{
 									Console.WriteLine("\nPlease verify the file name and try again.");
 									Console.WriteLine("\nPress any key to exit...");
 									Console.ReadKey(true);
 								}
-                            }
+							}
 						}
+						Console.WriteLine("\n\n Here are all your new log entries:\n");
+
+						using (StreamWriter streamWriter = new StreamWriter(filePath, append: true))
+						{
+							foreach (LogEntry entry in logEntries)
+							{
+								// format the log entry data into a string
+								string entryLine = $"{entry.StartDate?.ToString("MM/dd/yyyy")}, {entry.StartTime?.ToString("HH:mm")}, {entry.EndTime?.ToString("HH:mm")}, {entry.HowManyPeople}, {entry.ActivityCode?.ToString("X")}, {entry.Note?.Entry}";
+
+								// display the log entry data to the console then append it to the file
+								Console.WriteLine(entryLine);
+								streamWriter.WriteLine(entryLine);
+							}
+						}
+
+						Console.WriteLine("\nYour log entries have been saved to the file: " + fileName);
+						Console.WriteLine("\nGoodbye!");
+						Console.WriteLine("\nPress any key to exit...");
+						Console.ReadKey(true);
 					}
 					catch (Exception ex)
 					{
 						Console.WriteLine("An error occurred while reading the file: " + ex.Message);
+						Console.WriteLine("\nPress any key to exit...");
+						Console.ReadKey(true);
 					}
 				}
 			}
