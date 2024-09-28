@@ -1,10 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
+
+/*
+ * This program was written in C# using Visual Studio 2022.
+ * This program can be run in Visual Studio 2022 by opening the solution file and running the program using the play button or by pressing F5.
+ * 
+ * To compile this program, ensure that you have Visual Studio and the optional workload ".NET desktop development" installed.
+ * Once installed the Team9logEntryLater.sln file in Visual Studio
+ * Toggle the build configuration to "Release" to compile the program for release.
+ * Open the Solution Explorer and right-click on the Team9logEntryLater solution
+ * In the drop-down menu that opens click on "Build Solution"
+ * Observe the output in the Output window to find where Visual Studio saved the compiled program as a .exe file
+ * 
+ * Once built, place the .exe file in the same directory as the .csv file you wish to edit and run the program by double-clicking the .exe file
+ * 
+ * GroupNumber: 9
+ * People working on the program: Sam Irvin
+ * Class: CS 4500
+ * Date: 9/27/2024
+ * 
+ * This program consists of a central Program.cs file that contains the main method, logic, and two helper methods
+ *	a LogEntry.cs file that contains the LogEntry class
+ *	and a Note.cs file that contains the Note class
+ *	
+ *	Additionally, this solution file contains some test .csv that can be used to demonstrate the program's functionality
+ *	and a docs directory that contains the project design and test documentation
+ *	
+ * Code inspiration was taken from the following sources:
+ *	https://stackoverflow.com/questions/816566/how-do-you-get-the-current-project-directory-from-c-sharp-code-when-creating-a-c
+ *	https://learn.microsoft.com/en-us/dotnet/api/system.io.file.open?view=net-8.0
+ *	https://stackoverflow.com/questions/12521366/getting-time-span-between-two-times-in-c
+ *	https://stackoverflow.com/questions/3142547/join-date-and-time-to-datetime-in-c-sharp
+ *	https://stackoverflow.com/questions/8860879/in-c-sharp-is-there-any-datatype-to-store-the-hexadecimal-value
+ *	https://learn.microsoft.com/en-us/visualstudio/ide/compiling-and-building-in-visual-studio?view=vs-2022
+ */
 
 namespace Team9logEntryLater
 {
-	internal class Program
+	public class Program
 	{
 		static void Main(string[] args)
 		{
@@ -18,7 +53,17 @@ namespace Team9logEntryLater
 			string projectDirectory = Directory.GetParent(currentDirectory).Parent.FullName;
 			List<LogEntry> logEntries = new List<LogEntry>();
 
+			// Select directory based on debug mode
+			string localDirectory;
+#if DEBUG
+				localDirectory = projectDirectory;
+				Console.WriteLine("\n\nDebug Mode\n\n");
+#else
+			localDirectory = currentDirectory;
+			Console.WriteLine("\n\nRELEASE V 0.0.1\n\n");
+#endif
 
+			// Start of program
 			Console.WriteLine("Welcome! \n" +
 				"This program allows you to edit logs that track activities.");
 
@@ -29,17 +74,27 @@ namespace Team9logEntryLater
 			{
 				Console.WriteLine("\nPlease enter your first name: ");
 				firstName = Console.ReadLine();
+				if (!IsValidName(firstName))
+				{
+					Console.WriteLine("\nFirst name must not be empty and must only contain valid letters. Please try again.");
+					firstName = null;
+				}
 			} while (string.IsNullOrEmpty(firstName));
 
 			do
 			{
 				Console.WriteLine("\nPlease enter your last name: ");
 				lastName = Console.ReadLine();
+				if (!IsValidName(lastName))
+				{
+					Console.WriteLine("\nLast name must not be empty and must only contain valid letters. Please try again.");
+					lastName = null;
+				}
 			} while (string.IsNullOrEmpty(lastName));
 
 			// Creates file name and path based on user input
 			fileName = lastName + firstName + "Log.csv";
-			filePath = Path.Combine(projectDirectory, fileName);
+			filePath = Path.Combine(localDirectory, fileName);
 
 			Console.WriteLine("\nSearching for File: " + fileName);
 
@@ -47,7 +102,7 @@ namespace Team9logEntryLater
 			if (File.Exists(filePath))
 			{
 				// Check if there are multiple files that contain the same name, if so, inform the user and exit the program
-				if (Directory.GetFiles(projectDirectory, "*" + lastName + firstName + "*").Length > 1)
+				if (Directory.GetFiles(localDirectory, "*" + lastName + firstName + "*").Length > 1)
 				{
 					Console.WriteLine("There were multiple files found for that user. \n \n " +
 						"Please update the file names so only one file with the name " + fileName + " exists then try again. \n \n");
@@ -115,7 +170,7 @@ namespace Team9logEntryLater
 												Console.WriteLine("Invalid time. Please try again.");
 												logEntry.StartTime = null;
 											}
-										} while (logEntry.StartTime == null) ;
+										} while (logEntry.StartTime == null);
 										do
 										{
 											Console.WriteLine("\nPlease enter the end date (MM/DD/YYYY): ");
@@ -152,14 +207,14 @@ namespace Team9logEntryLater
 												DateTime endDateTime = logEntry.EndDate.Value.Date + logEntry.EndTime.Value.TimeOfDay;
 
 												// Check if the end time is before the start time
-												if (endDateTime < startDateTime)
+												if (endDateTime <= startDateTime)
 												{
 													Console.WriteLine("End Time must be after Start Time.");
 													logEntry.EndTime = null;
 												}
 
 												// Check if the total time logges is greater than 24 hours and reject the end time
-												if ((endDateTime - startDateTime).TotalHours > 24)
+												if ((endDateTime - startDateTime).TotalHours >= 24)
 												{
 													Console.WriteLine("Total time logged is greater than 24 hours. Please enter a valid end time.");
 													logEntry.EndTime = null;
@@ -189,7 +244,7 @@ namespace Team9logEntryLater
 												logEntry.EndTime = null;
 											}
 
-										} while (logEntry.EndTime == null) ;
+										} while (logEntry.EndTime == null);
 
 										// Gather Activity Code
 										do
@@ -365,6 +420,11 @@ namespace Team9logEntryLater
 			}
 		}
 
+		/// <summary>
+		/// Returns a boolean value based on the user response
+		/// </summary>
+		/// <param name="userResponse"></param>
+		/// <returns>True if arguement is Yes, Y, yes, or y. Else False </returns>
 		static private bool VerifyUserResponse(string userResponse)
 		{
 			switch (userResponse.ToLower())
@@ -376,6 +436,23 @@ namespace Team9logEntryLater
 				default:
 					return false;
 			}
+		}
+
+		/// <summary>
+		/// Returns a boolean value to indicate if the provided string is only valid characters
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns>True if input string is only valid letters, else False</returns>
+		static private bool IsValidName(string name)
+		{
+			// check if name is empty or contains only whitespace
+			if (string.IsNullOrWhiteSpace(name)) { return false; }
+			// check of name contains only letters
+			if (!Regex.IsMatch(name, @"^[a-zA-Z]+$")) { return false; }
+			// check if name contains any variation of the word "null"
+			if (name.ToLower().Contains("null")) { return false; }
+
+			return true;
 		}
 	}
 }

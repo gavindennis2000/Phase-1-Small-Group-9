@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Security.Cryptography;
 
 namespace Team9logEntryLater
@@ -6,7 +7,7 @@ namespace Team9logEntryLater
 	internal class LogEntry
 	{
 		private DateTime? _startDate;
-		private DateTime? _startTime; // Changed from TimeOnly to DateTime?
+		private DateTime? _startTime;
 		private DateTime? _endDate;
 		private DateTime? _endTime;
 		private int _howManyPeople = 0;
