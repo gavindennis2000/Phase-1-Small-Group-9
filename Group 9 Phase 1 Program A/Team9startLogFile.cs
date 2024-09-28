@@ -1,8 +1,24 @@
-﻿/* 
+﻿/* C# will be the language used for each program
 CS 4050
-Group 9 Phase 1 Program A
+Group 9 Phase 1 - Gavin Dennis, Alewiya Duressa, and Sam Irvin
+Program A
 Lead Programmer: Gavin Dennis
-Due Friday 27 September 2024
+Programmed in Microsoft Visual Studio 2022
+27 September 2024
+
+The program uses user input to create a time log in the form of a CSV file. It will prompt
+the user for his or her last name, first name, and class ID. After which it will call a function
+to create and write to a CSV file. An error message will be prompted if a user with the same
+name already has CSV file.
+
+I was unable to create a standalone executable for c# due to the nature of the language.
+Here are the dependencies:
+    Group 9 Phase 1 Program A.runtimeconfig.json
+    Group 9 Phase 1 Program A.deps.json
+    Group 9 Phase 1 Program A.dll
+
+C# documentation provided by the Microsoft website at 
+https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-write-text-to-a-file
 */
 
 using System;
@@ -21,11 +37,13 @@ public class Inputs
         activity code - hexidecimal digit (0 - F)
         notes - string with 80 or fewer characters
 
-        Program A only needs lastname, firstname, and class ID
+        Program A only needs lastname, firstname, and class ID.
+        These strings should not contain commas due to the
+        nature of CSV files
     */
-    public string LastName;
-    public string FirstName;
-    public string ClassID;
+    public string LastName = "Smith";
+    public string FirstName = "John";
+    public string ClassID = "CS 0000";
 }
 
 public class Team9startLogFile
@@ -89,6 +107,7 @@ public class Team9startLogFile
             "Start Log File Program." +
             "\nProgrammed by Gavin Dennis" +
             "\n\nThis program creates a CSV file time log. It will prompt you for some information, then write it to a CSV file." + 
+            "\nNo commas can be used in any of the data inputs due to the nature of CSV files. You will be reprompted if your input contains commas." +
             "\n\n" +
             "\nPress any key to continue. "
         );
@@ -108,15 +127,41 @@ public class Team9startLogFile
 
 
         // prompt for user data
-        Console.WriteLine("\n\nEnter your last name followed by the \'enter\' key (e.g. 'Smith'): ");  // last name
-        input.LastName = Console.ReadLine();
+        string comma = ",";  // variable for comma detection in user inputs
 
-        Console.WriteLine("\nEnter your first name followed by the \'enter\' key (e.g. \'John\'): ");  // first name
-        input.FirstName = Console.ReadLine();
+        // last name
+        do
+        {
+            Console.WriteLine("\n\nEnter your last name followed by the \'enter\' key (e.g. 'Smith'): ");  
+            input.LastName = Console.ReadLine();
 
-        Console.WriteLine("\nEnter your class followed by the \'enter\' key (e.g. \'CS 4050'): ");  // class ID
-        input.ClassID = Console.ReadLine();
+            if (input.LastName.Contains(comma))
+            {
+                Console.WriteLine("\nError: String cannot contain commas. Try again.");
+            }
+        } while (input.LastName.Contains(comma)) ;
 
+        // first name
+        do
+        {
+            Console.WriteLine("\nEnter your first name followed by the \'enter\' key (e.g. \'John\'): ");  
+            input.FirstName = Console.ReadLine();
+            if (input.FirstName.Contains(comma))
+            {
+                Console.WriteLine("\nError: String cannot contain commas. Try again.");
+            }
+        } while (input.FirstName.Contains(comma));
+
+        // class ID
+        do
+        { 
+            Console.WriteLine("\nEnter your class followed by the \'enter\' key (e.g. \'CS 4050'): ");  
+            input.ClassID = Console.ReadLine();
+            if (input.ClassID.Contains(comma))
+            {
+                Console.WriteLine("\nError: String cannot contain commas. Try again.");
+            }
+        } while (input.ClassID.Contains(comma));
         // create the csv file
         WriteToCsv(input);
 

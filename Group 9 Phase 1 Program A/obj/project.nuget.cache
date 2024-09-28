@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "Q/bqJFYqW/k=",
+  "dgSpecHash": "cenFfbVzqmk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj",
+  "projectFilePath": "C:\\Users\\Anthony\\Documents\\GitHub\\Phase-1-Small-Group-9\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Anthony\\.nuget\\packages\\csvhelper\\33.0.1\\csvhelper.33.0.1.nupkg.sha512"
+    "C:\\Users\\Anthony\\.nuget\\packages\\csvhelper\\33.0.1\\csvhelper.33.0.1.nupkg.sha512",
+    "C:\\Users\\Anthony\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.8\\microsoft.net.illink.tasks.8.0.8.nupkg.sha512",
+    "C:\\Users\\Anthony\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.8\\microsoft.netcore.app.runtime.win-x64.8.0.8.nupkg.sha512",
+    "C:\\Users\\Anthony\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.8\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.8.nupkg.sha512",
+    "C:\\Users\\Anthony\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.8\\microsoft.aspnetcore.app.runtime.win-x64.8.0.8.nupkg.sha512"
   ],
   "logs": []
 }

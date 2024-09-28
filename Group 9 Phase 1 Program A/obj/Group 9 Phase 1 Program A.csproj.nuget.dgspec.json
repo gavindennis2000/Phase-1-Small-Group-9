@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj": {}
+    "C:\\Users\\Anthony\\Documents\\GitHub\\Phase-1-Small-Group-9\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj": {
+    "C:\\Users\\Anthony\\Documents\\GitHub\\Phase-1-Small-Group-9\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj",
+        "projectUniqueName": "C:\\Users\\Anthony\\Documents\\GitHub\\Phase-1-Small-Group-9\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj",
         "projectName": "Group 9 Phase 1 Program A",
-        "projectPath": "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj",
+        "projectPath": "C:\\Users\\Anthony\\Documents\\GitHub\\Phase-1-Small-Group-9\\Group 9 Phase 1 Program A\\Group 9 Phase 1 Program A.csproj",
         "packagesPath": "C:\\Users\\Anthony\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Anthony\\source\\repos\\Group 9 Phase 1 Program A\\obj\\",
+        "outputPath": "C:\\Users\\Anthony\\Documents\\GitHub\\Phase-1-Small-Group-9\\Group 9 Phase 1 Program A\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Anthony\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -48,6 +48,12 @@
             "CsvHelper": {
               "target": "Package",
               "version": "[33.0.1, )"
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.8, )",
+              "autoReferenced": true
             }
           },
           "imports": [
@@ -61,12 +67,31 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[8.0.8, 8.0.8]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[8.0.8, 8.0.8]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+              "version": "[8.0.8, 8.0.8]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }

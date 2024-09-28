@@ -1,0 +1,2 @@
+C:\Users\Anthony\Documents\GitHub\Phase-1-Small-Group-9\Group 9 Phase 1 Program A\bin\Release\net8.0\win-x64\publish\Group 9 Phase 1 Program A.pdb
+C:\Users\Anthony\Documents\GitHub\Phase-1-Small-Group-9\Group 9 Phase 1 Program A\bin\Release\net8.0\win-x64\publish\Group 9 Phase 1 Program A.exe
